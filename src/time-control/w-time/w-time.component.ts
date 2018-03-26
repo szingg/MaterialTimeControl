@@ -2,6 +2,7 @@
 import { Component, Input, Output, OnInit, Inject, EventEmitter } from '@angular/core';
 
 import { CLOCK_TYPE, ITime } from '../w-clock/w-clock.component';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -14,6 +15,7 @@ export class WTimeComponent implements OnInit {
 
   @Input() userTime: ITime;
   @Output() userTimeChange: EventEmitter<ITime> = new EventEmitter();
+  @Output() viewChange = new EventEmitter<CLOCK_TYPE>();
 
   @Input() revertLabel: string;
   @Input() submitLabel: string;
@@ -22,24 +24,24 @@ export class WTimeComponent implements OnInit {
   @Output() onSubmit: EventEmitter<ITime> = new EventEmitter();
 
   @Input() color: string;
+  @Input() layout: 'row' | 'column' | undefined;
 
   public VIEW_HOURS = CLOCK_TYPE.HOURS;
   public VIEW_MINUTES = CLOCK_TYPE.MINUTES;
   public currentView: CLOCK_TYPE = this.VIEW_HOURS;
 
-  constructor() { }
+  constructor(private datePipe: DatePipe) { }
 
   ngOnInit() {
 
     if (!this.userTime) {
-
+      const time = new Date();
       this.userTime = {
-
-        hour: 6,
-        minute: 0,
-        meriden: 'PM',
-        format: 12
-      };
+        hour: this.is24Hours ? time.getHours() % 24 : time.getHours() % 12,
+        minute: time.getMinutes(),
+        meriden: time.getHours() > 12 ? 'PM' : 'AM',
+        format: this.is24Hours ? 24 : 12
+      }
     }
 
     if (!this.revertLabel) {
@@ -49,9 +51,19 @@ export class WTimeComponent implements OnInit {
 
     if (!this.submitLabel) {
 
-      this.submitLabel = 'Okay'
+      this.submitLabel = 'Ok'
+    }
+
+    if (!this.layout) {
+      this.layout = 'row';
     }
   }
+
+  private get is24Hours(): boolean {
+    const offset = new Date().getTimezoneOffset() / 60;
+    const time = this.datePipe.transform('1999-12-31T' + (18 + offset) + ':00:00.000Z', 'shortTime');
+    return time.length === '18:00'.length;
+}
 
   public formatHour(): string {
 
@@ -77,7 +89,7 @@ export class WTimeComponent implements OnInit {
   }
 
   public setCurrentView(type: CLOCK_TYPE) {
-
+    this.viewChange.emit(type);
     this.currentView = type;
   }
 

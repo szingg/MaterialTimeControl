@@ -33,6 +33,7 @@ export class WClockComponent implements OnChanges {
     @Input() public color: string;
 
     public steps = new Array<number>();
+    public innerSteps = new Array<number>();
     private selectedTimePart;
     private STEP_DEG: number;
 
@@ -47,6 +48,7 @@ export class WClockComponent implements OnChanges {
     private setupUI() {
 
         this.steps = new Array<number>();
+        this.innerSteps = new Array<number>();
 
         switch (this.currentView) {
 
@@ -54,7 +56,12 @@ export class WClockComponent implements OnChanges {
 
                 for (let i = 1; i <= this.userTime.format; i++) {
 
-                    this.steps.push(i);
+                    if (i <= 12) {
+                        this.steps.push(i);
+                    } else {
+                        this.innerSteps.push(i);
+                    }
+
                     this.selectedTimePart = this.userTime.hour || 0;
 
                     if (this.selectedTimePart > this.userTime.format) {
@@ -82,7 +89,7 @@ export class WClockComponent implements OnChanges {
         switch (this.currentView) {
 
             case CLOCK_TYPE.HOURS:
-                divider = this.userTime.format;
+                divider = 12; // this.userTime.format;
                 break;
 
             case CLOCK_TYPE.MINUTES:
@@ -98,7 +105,8 @@ export class WClockComponent implements OnChanges {
         }
 
         const style = {
-
+            'bottom': this.currentView === CLOCK_TYPE.HOURS && this.userTime.hour > 12 ? '15%' : '0',
+            'height': this.currentView === CLOCK_TYPE.HOURS && this.userTime.hour > 12 ? '35%' : '50%',
             '-webkit-transform': 'rotate(' + degrees + 'deg)',
             '-ms-transform': 'rotate(' + degrees + 'deg)',
             'transform': 'rotate(' + degrees + 'deg)'
@@ -109,11 +117,11 @@ export class WClockComponent implements OnChanges {
 
     private getTimeValueClass(step: number, index: number) {
 
-        if (this.currentView === CLOCK_TYPE.HOURS) {
-            this.STEP_DEG = 360 / this.userTime.format;
-        } else {
+        // if (this.currentView === CLOCK_TYPE.HOURS) {
+        //     this.STEP_DEG = 360 / this.userTime.format;
+        // } else {
             this.STEP_DEG = 360 / 12;
-        }
+        // }
         let classes = 'w-clock-step w-clock-deg' + (this.STEP_DEG * (index + 1));
 
         if (this.selectedTimePart === step) {

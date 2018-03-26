@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 
 import { WTimeDialogComponent } from '../w-time-dialog/w-time-dialog.component';
 import { ITime } from '../w-clock/w-clock.component';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -20,20 +21,29 @@ export class WMatTimePickerComponent implements OnInit {
 
     @Input() color: string;
 
-    constructor(private dialog: MatDialog) { }
+    @Input() layout: 'row' | 'column';
+
+    @Input() closeAfterSelection: boolean;
+
+    constructor(private dialog: MatDialog, private datePipe: DatePipe) { }
 
     ngOnInit() {
 
         if (!this.userTime) {
-
+            const time = new Date();
             this.userTime = {
-
-                hour: 10,
-                minute: 25,
-                meriden: 'PM',
-                format: 24
+                hour: this.is24Hours ? time.getHours() % 24 : time.getHours() % 12,
+                minute: time.getMinutes(),
+                meriden: time.getHours() > 12 ? 'PM' : 'AM',
+                format: this.is24Hours ? 24 : 12
             }
         }
+    }
+
+    private get is24Hours(): boolean {
+        const offset = new Date().getTimezoneOffset() / 60;
+        const time = this.datePipe.transform('1999-12-31T' + (18 + offset) + ':00:00.000Z', 'shortTime');
+        return time.length === '18:00'.length;
     }
 
     private get time(): string {
@@ -77,7 +87,9 @@ export class WMatTimePickerComponent implements OnInit {
                     meriden: this.userTime.meriden,
                     format: this.userTime.format
                 },
-                color: this.color
+                color: this.color,
+                layout: this.layout,
+                closeAfterSelection: this.closeAfterSelection
             }
         });
 

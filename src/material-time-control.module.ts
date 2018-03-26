@@ -1,6 +1,6 @@
 
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import {
@@ -43,6 +43,9 @@ import {
     WClockComponent,
     WTimeComponent,
   ],
+  providers: [
+    DatePipe
+  ],
   entryComponents: [
     WMatTimePickerComponent,
     WTimeDialogComponent,
@@ -50,5 +53,4 @@ import {
     WTimeComponent,
   ]
 })
-
 export class MaterialTimeControlModule { }

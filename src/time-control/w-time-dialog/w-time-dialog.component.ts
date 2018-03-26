@@ -16,16 +16,18 @@ export class WTimeDialogComponent {
     public userTime: ITime;
     private VIEW_HOURS = CLOCK_TYPE.HOURS;
     private VIEW_MINUTES = CLOCK_TYPE.MINUTES;
-    private currentView: CLOCK_TYPE = this.VIEW_HOURS;
+    public color: string;
+    public layout: 'row' | 'column';
+    private closeAfterSelection: boolean;
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) private data: { time: ITime, color: string },
-        @Inject(MAT_DIALOG_DATA) public color: string,
+        @Inject(MAT_DIALOG_DATA) private data: { time: ITime, color: string, layout: 'row' | 'column', closeAfterSelection: boolean },
         private dialogRef: MatDialogRef<WTimeDialogComponent>) {
 
         this.userTime = data.time;
         this.color = data.color;
-        console.log('this.color', this.color);
+        this.layout = data.layout;
+        this.closeAfterSelection = data.closeAfterSelection;
     }
 
     public revert() {
@@ -36,5 +38,11 @@ export class WTimeDialogComponent {
     public submit() {
 
         this.dialogRef.close(this.userTime);
+    }
+
+    public viewChange(view: CLOCK_TYPE) {
+        if (this.closeAfterSelection && view === CLOCK_TYPE.HOURS) {
+            this.submit();
+        }
     }
 }

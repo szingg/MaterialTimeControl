@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center" class="w-time" [ngClass.xs]="'vertical-time'" [ngClass.sm]="'vertical-time'">
-  <mat-toolbar fxLayout="column"  fxLayout.lt-md="row" fxLayoutAlign="center center" [color]="color" class="w-timepicker-time-container">
+<div fxLayout="{{layout}}" fxLayout.lt-md="column" fxLayoutAlign="center center" class="w-time" [ngClass.xs]="'vertical-time'" [ngClass.sm]="'vertical-time'" [ngClass]="{'vertical-time': layout == 'column'}">
+  <mat-toolbar fxLayout="{{layout == 'row' ? 'column' : 'row'}}"  fxLayout.lt-md="row" fxLayoutAlign="center center" [color]="color" class="w-timepicker-time-container">
       
       <div class="w-timepicker-selected-time">
           <span [class]="currentView === VIEW_HOURS ? 'active': ''" (click)="setCurrentView(VIEW_HOURS)">{{ formatHour() }}:</span>

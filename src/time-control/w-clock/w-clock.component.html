@@ -19,6 +19,16 @@
                 </button>
             </div>
 
+            <div class="w-clock-inner-container">
+                <div *ngFor="let step of innerSteps; let i = index" [class]="getTimeValueClass(step, i)" >
+                    <button mat-mini-fab
+                        [color]="selectedTimePart === step ? color : ''"
+                        (click)="changeTimeValue(step)">
+                        {{ step }}
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
