@@ -1,6 +1,6 @@
 {
   "name": "angular-material-time-control",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "Material Time Control - Forked by https://github.com/SteveDunlap13/MaterialTimeControl",
   "scripts": {
     "ng": "ng",

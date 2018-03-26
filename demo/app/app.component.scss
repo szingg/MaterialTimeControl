@@ -17,8 +17,12 @@
   padding: 4em;
 }
 
-.mat-card {
+.mat-card.mat-card {
   padding: 0;
   max-width: 600px;
   margin: 3rem auto;
+}
+
+.cdk-overlay-container .mat-dialog-container {
+  padding: 0;
 }
