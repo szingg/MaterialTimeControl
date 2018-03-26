@@ -1,6 +1,11 @@
 
-.time-picker-button {
+.time-picker-button.mat-button {
     padding: 0;
     margin: 0;
     min-width: 44px;
+}
+
+
+.timeContainer .mat-input-infix.mat-form-field-infix {
+    width: 100%;
 }

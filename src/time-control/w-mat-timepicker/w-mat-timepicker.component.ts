@@ -1,5 +1,5 @@
 
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { WTimeDialogComponent } from '../w-time-dialog/w-time-dialog.component';
@@ -11,7 +11,8 @@ import { DatePipe } from '@angular/common';
 @Component({
     selector: 'w-mat-timepicker',
     styleUrls: ['./w-mat-timepicker.component.scss'],
-    templateUrl: './w-mat-timepicker.component.html'
+    templateUrl: './w-mat-timepicker.component.html',
+    encapsulation: ViewEncapsulation.None
 })
 
 export class WMatTimePickerComponent implements OnInit, OnChanges {
