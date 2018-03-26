@@ -46,7 +46,7 @@ export class WMatTimePickerComponent implements OnInit {
         return time.length === '18:00'.length;
     }
 
-    private get time(): string {
+    public get time(): string {
 
         if (!this.userTime) {
             return '';
